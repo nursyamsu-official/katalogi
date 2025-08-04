@@ -35,6 +35,7 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@prisma/client",
       "@prisma/engines",
       "@tailwindcss/oxide",
       "esbuild",
