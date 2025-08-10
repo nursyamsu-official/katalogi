@@ -1,9 +1,8 @@
 import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
-import { getCatalogGroups } from "@/lib/data/catalog-group/get-catalog-groups";
-import Link from "next/link";
+import { getCatalogGroups } from "@/lib/data/catalog-group-header/get-catalog-groups";
 import { PlusIcon } from "lucide-react";
-import { Card, CardHeader } from "@/components/ui/card";
+import { CatalogGroupComp } from "@/components/apps/catalog-group/catalog-group-comp";
 
 export const metadata: Metadata = {
   title: "Catalog Group",
@@ -12,6 +11,7 @@ export const metadata: Metadata = {
 
 export default async function CatalogGroupPage() {
   const catalogGroups = await getCatalogGroups();
+  console.log(catalogGroups);
   return (
     <div>
       <div className="flex justify-between items-center border-b border-gray-300 pt-4 pb-4">
@@ -23,28 +23,12 @@ export default async function CatalogGroupPage() {
           Add Catalog Group
         </Button>
       </div>
-      <div className="pt-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-        {catalogGroups.map((catalogGroup) => (
-          <Card key={catalogGroup.id} className="p-4">
-            <CardHeader>{catalogGroup.name}</CardHeader>
-            <p className="text-sm sm:text-base md:text-lg text-gray-500">
-              {catalogGroup.description}
-            </p>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {catalogGroup.items.map((item) => (
-                <div key={item.id}>
-                  <Link
-                    href={`/apps/catalog-group/${catalogGroup.id}/${item.id}`}
-                    className="text-sm sm:text-base md:text-lg lg:text-xl"
-                  >
-                    {item.name}
-                  </Link>
-                </div>
-              ))}
-            </div>
-          </Card>
-        ))}
+      <div className="pt-4">
+        <div></div>
+        <pre>{JSON.stringify(catalogGroups, null, 2)}</pre>
       </div>
+      {/* Catalog Group Comp */}
+      {/* <CatalogGroupComp /> */}
     </div>
   );
 }
