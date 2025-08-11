@@ -1,8 +1,11 @@
-import { Button } from "@/components/ui/button";
 import { Metadata } from "next";
-import { getCatalogGroups } from "@/lib/data/catalog-group-header/get-catalog-groups";
+import { getCatalogGroupHeadersDb } from "@/lib/data/catalog-group-header-db";
+import { CatalogGroupHeaderCard } from "@/components/apps/catalog-group-component/catalog-group-header-card";
+import { catalogGroupHeaderOutputSchema } from "@/schemas/catalog-group-header-schema";
+import { z } from "zod";
+
+import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
-import { CatalogGroupComp } from "@/components/apps/catalog-group/catalog-group-comp";
 
 export const metadata: Metadata = {
   title: "Catalog Group",
@@ -10,8 +13,16 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogGroupPage() {
-  const catalogGroups = await getCatalogGroups();
-  console.log(catalogGroups);
+  const catalogGroupHeaders = await getCatalogGroupHeadersDb();
+
+  const catalogGroupHeadersProps = catalogGroupHeaders.map((header) => ({
+    id: header.id,
+    name: header.name,
+    description: header.description ?? "",
+    createdAt: header.createdAt,
+    updatedAt: header.updatedAt,
+  }));
+
   return (
     <div>
       <div className="flex justify-between items-center border-b border-gray-300 pt-4 pb-4">
@@ -23,12 +34,8 @@ export default async function CatalogGroupPage() {
           Add Catalog Group
         </Button>
       </div>
-      <div className="pt-4">
-        <div></div>
-        <pre>{JSON.stringify(catalogGroups, null, 2)}</pre>
-      </div>
-      {/* Catalog Group Comp */}
-      {/* <CatalogGroupComp /> */}
+
+      <CatalogGroupHeaderCard dataProps={catalogGroupHeadersProps} />
     </div>
   );
 }
