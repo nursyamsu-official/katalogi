@@ -1,8 +1,7 @@
 import { Metadata } from "next";
 import { getCatalogGroupHeadersDb } from "@/lib/data/catalog-group-header-db";
 import { CatalogGroupHeaderCard } from "@/components/apps/catalog-group-component/catalog-group-header-card";
-import { catalogGroupHeaderOutputSchema } from "@/schemas/catalog-group-header-schema";
-import { z } from "zod";
+
 
 import { Button } from "@/components/ui/button";
 import { PlusIcon } from "lucide-react";
@@ -14,6 +13,7 @@ export const metadata: Metadata = {
 
 export default async function CatalogGroupPage() {
   const catalogGroupHeaders = await getCatalogGroupHeadersDb();
+  console.log(catalogGroupHeaders);
 
   const catalogGroupHeadersProps = catalogGroupHeaders.map((header) => ({
     id: header.id,
@@ -31,11 +31,12 @@ export default async function CatalogGroupPage() {
         </h1>
         <Button variant="outline" size="sm" className="flex items-center gap-2">
           <PlusIcon className="w-4 h-4" />
-          Add Catalog Group
+          <span className="hidden sm:block">Add Catalog Group</span>
         </Button>
       </div>
 
       <CatalogGroupHeaderCard dataProps={catalogGroupHeadersProps} />
+
     </div>
   );
 }
